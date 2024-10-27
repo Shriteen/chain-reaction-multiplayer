@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.ArrayDeque;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import com.google.gson.Gson;
 
 /**
  * GameModel: The model which defines the game state and moves on the state
@@ -206,5 +207,15 @@ public class GameModel {
             return players.getFirst();
         else
             throw new Exception("GameModel.getWinner called when game was not over yet!");
+    }
+
+    //return JSON representation of game state
+    public String toJSON() {
+        return new Gson().toJson(this).toString();
+    }
+
+    //factory method to create GameModel object from json string
+    public static GameModel fromJSON(String jsonRepresentationOfGameState) {
+        return new Gson().fromJson(jsonRepresentationOfGameState, GameModel.class);
     }
 }
