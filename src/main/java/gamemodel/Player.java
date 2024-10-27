@@ -22,4 +22,8 @@ public record Player(int id, String name, String color) {
             throw new IllegalArgumentException("The color should be hexadecimal string of six characters");            
         }
     }
+
+    boolean equals(Player otherPlayer){
+        return this.id == otherPlayer.id;
+    }
 }
