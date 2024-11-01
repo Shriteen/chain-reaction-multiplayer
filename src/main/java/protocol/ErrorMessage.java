@@ -17,4 +17,8 @@ public class ErrorMessage extends Message{
         messageString= message;
         this.code= code;
     }
+
+    public String getErrorDisplayString() {
+        return "Error: "+ code.name()+" "+ messageString;
+    }
 }
