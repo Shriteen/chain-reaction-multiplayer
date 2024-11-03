@@ -14,7 +14,7 @@ public abstract class Server extends Thread
     protected ServerSocket serverSocket;
 
     // state of the server to determine listen to more connections or not
-    enum State{ CREATED ,LISTENING, STARTED };
+    enum State{ CREATED ,LISTENING, STARTED, STOPPED };
     protected State state;
     
     // Constructor accepts the port on which to listen
@@ -55,9 +55,15 @@ public abstract class Server extends Thread
     }
 
     // Change server state to Started
-    public void setStarted() {
+    protected void setStarted() {
         state = State.STARTED;
     } 
+
+    // Change server state to Stopped
+    public void setStopped() {
+        state = State.STOPPED;
+    } 
+
     
 }
 

@@ -161,10 +161,12 @@ public class GameModel {
     }
 
     //removes a player from game
-    private void removePlayer(int id) {
+    public void removePlayer(int id) {
         clearCellsOfPlayer(id);
         Player currentPlayer= currentTurnOfPlayer();
-        players.removeIf(p->p.id()==id);
+        synchronized(players) {
+            players.removeIf(p->p.id()==id);
+        }
         if(currentPlayer.id()==id){
             //index would be already set to next element, just ensure wrap
             wrapAroundIndexIfNeeded();
