@@ -197,5 +197,40 @@ public class GameServer extends Server {
             return Integer.toHexString(red)+Integer.toHexString(green)+Integer.toHexString(blue);
         }
     }
+
+    // Sends game model to all clients
+    private void sendStateToAll() {
+        synchronized(clientList){
+            for(var client: clientList){
+                try {
+                    if(client.isActive())
+                        client.send(new GameState(model));
+                }
+                catch (IOException e) {
+                    System.out.println("Failed to send game state to "+ client.getClientId());
+                    System.out.println("Error " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    // Sends your turn message to the player having current turn
+    private void sendYourTurnMessage() {
+        int currentPlayerId = model.currentTurnOfPlayer().id();
+        SClient currentPlayerClient = clientList.stream()
+                                                .filter(sc -> sc.getClientId()==currentPlayerId)
+                                                .findFirst()
+                                                .get();
+        try {
+            currentPlayerClient.send(new YourTurn());
+        }
+        catch (IOException e) {
+            System.out.println("Failed to send your turn message to "+ currentPlayerClient.getClientId());
+            System.out.println("Error " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
     
 }

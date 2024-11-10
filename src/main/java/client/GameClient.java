@@ -3,6 +3,7 @@ package client;
 import java.io.*;
 import java.net.Socket;
 import java.net.InetAddress;
+import java.util.function.Consumer;
 import com.google.gson.Gson;
 
 import gamemodel.GameModel;
@@ -24,6 +25,17 @@ public class GameClient extends Client{
 
     // State of game on client side
     private GameModel model;
+
+    // Event function which is fired when new state is received
+    // Accepts GameModel as argument
+    private Consumer<GameModel> gameStateReceivedHandler = gameModel -> {
+        System.out.println("Game State Received");      // Default implementation is to log to console
+    };
+
+    // Event function which is fired when your turn message is received
+    private Runnable yourTurnHandler = () -> {
+        System.out.println("Your Turn");
+    };
     
     // Constructor accepts the port on which to listen
     public GameClient(String ipAddress, String username) throws IOException{
@@ -49,9 +61,18 @@ public class GameClient extends Client{
         switch(messageType){
             
         case "SERVER_HELLO":
-            ServerHello message= new Gson().fromJson(jsonMessage, ServerHello.class);
-            ID = message.id;
+            ServerHello helloMessage= new Gson().fromJson(jsonMessage, ServerHello.class);
+            ID = helloMessage.id;
             System.out.println("Received id: "+ID);
+            break;
+        case "GAME_STATE":
+            setStarted();
+            gameStateReceivedHandler.accept(
+                new Gson().fromJson(jsonMessage, GameState.class).state
+                );
+            break;
+        case "YOUR_TURN":
+            yourTurnHandler.run();
             break;
         default:
             System.out.println("Received unknown message type: "+ messageType);
@@ -73,6 +94,18 @@ public class GameClient extends Client{
     //Change state to Started
     public void setStarted() {
         state = State.STARTED;
-    }   
+    }
+
+    // To add event handler for game state received
+    public void onGameStateReceived(Consumer<GameModel> handler) {
+        gameStateReceivedHandler= handler;
+    }
+
+    // To add event handler for your turn message
+    public void onYourTurnReceived(Runnable handler) {
+        yourTurnHandler = handler;
+    }
+
+    
 }
 
