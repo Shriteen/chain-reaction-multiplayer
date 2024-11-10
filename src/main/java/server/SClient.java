@@ -54,6 +54,10 @@ public class SClient extends Client{
             username= message.userName;
             System.out.println("Client "+clientId+" updated their username to "+username);
             break;
+        case "MAKE_MOVE":
+            MakeMove move= new Gson().fromJson(jsonMessage, MakeMove.class);
+            playMove(move);
+            break;
         default:
             System.out.println("Received unknown message type: "+ messageType);
         }
@@ -67,5 +71,19 @@ public class SClient extends Client{
         return username;
     }
 
-
+    private void playMove(MakeMove move) {
+        try {
+            int currentTurnOfId= server.model.currentTurnOfPlayer().id();
+            if(currentTurnOfId==clientId)
+                server.model.play(clientId, move.row, move.col);
+            else
+                System.out.println("Error: Player "+ clientId +" tried to play when turn is of "+ currentTurnOfId);
+        }
+        catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            e.printStackTrace();
+        }finally{
+            server.gameLoop.interrupt();
+        }
+    }
 }

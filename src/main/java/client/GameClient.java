@@ -66,10 +66,9 @@ public class GameClient extends Client{
             System.out.println("Received id: "+ID);
             break;
         case "GAME_STATE":
+            model = new Gson().fromJson(jsonMessage, GameState.class).state;
+            gameStateReceivedHandler.accept(model);
             setStarted();
-            gameStateReceivedHandler.accept(
-                new Gson().fromJson(jsonMessage, GameState.class).state
-                );
             break;
         case "YOUR_TURN":
             yourTurnHandler.run();
@@ -106,6 +105,23 @@ public class GameClient extends Client{
         yourTurnHandler = handler;
     }
 
+    // Send make move message; row and col are position of move
+    public void makeMove(int row, int col) {
+        if(state==State.STARTED){
+            if(model.currentTurnOfPlayer().id()== ID){
+                try {
+                    send(new MakeMove(row,col));
+                }
+                catch (IOException e) {
+                    System.out.println("Error " + e.getMessage());
+                    e.printStackTrace();
+                }
+
+            }else
+                System.out.println("Error: Attempt to play when it's not my turn!");
+        }else
+            System.out.println("Error: Made move when game is not started!");
+    }
     
 }
 

@@ -25,6 +25,9 @@ public class GameServer extends Server {
 
     // Model representing game state
     GameModel model;
+
+    // Thread which runs game loop
+    GameLoop gameLoop;
     
     public GameServer() throws IOException{
         super(45678);
@@ -103,7 +106,7 @@ public class GameServer extends Server {
         model = new GameModel(rows, cols, players );
 
         //start loop thread
-        new GameLoop();
+        gameLoop=new GameLoop();
     }
     
     // Daemon thread which removes inactive clients from clientList
@@ -161,7 +164,7 @@ public class GameServer extends Server {
     }
 
     // Thread for loop in which game is played
-    private class GameLoop extends Thread {
+    class GameLoop extends Thread {
         GameLoop() {
             state= Server.State.STARTED;
             this.start();
