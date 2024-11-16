@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import com.google.gson.Gson;
 
 import gamemodel.GameModel;
+import gamemodel.Player;
 import protocol.*;
 
 
@@ -16,7 +17,7 @@ import protocol.*;
 public class GameClient extends Client{
     
     // state of client 
-    enum State{ CREATED , CONNECTED, STARTED };
+    enum State{ CREATED , CONNECTED, STARTED, OVER };
     private State state=State.CREATED;
     
     // Client info
@@ -35,6 +36,13 @@ public class GameClient extends Client{
     // Event function which is fired when your turn message is received
     private Runnable yourTurnHandler = () -> {
         System.out.println("Your Turn");
+    };
+
+    // Event function which is fired when game over is received
+    // Accepts winning Player as argument
+    private Consumer<Player> gameOverReceivedHandler = winner -> {
+        System.out.println("Game over!");      // Default implementation is to log to console
+        System.out.println("Winner is "+winner.name()+" having id:"+winner.id());
     };
     
     // Constructor accepts the port on which to listen
@@ -73,6 +81,12 @@ public class GameClient extends Client{
         case "YOUR_TURN":
             yourTurnHandler.run();
             break;
+        case "GAME_OVER":
+            gameOverReceivedHandler.accept(
+                new Gson().fromJson(jsonMessage, GameOver.class).winner
+                );
+            state= State.OVER;
+            break;
         default:
             System.out.println("Received unknown message type: "+ messageType);
         }
@@ -105,6 +119,11 @@ public class GameClient extends Client{
         yourTurnHandler = handler;
     }
 
+    // To add event handler for game over received
+    public void onGameOverReceived(Consumer<Player> handler) {
+        gameOverReceivedHandler= handler;
+    }
+    
     // Send make move message; row and col are position of move
     public void makeMove(int row, int col) {
         if(state==State.STARTED){

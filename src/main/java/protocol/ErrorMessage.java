@@ -6,6 +6,7 @@ package protocol;
 public class ErrorMessage extends Message{
     public enum Code{
         CONN_REFUSED,
+        SERVER_STOPPED,
         OTHER
     };
     

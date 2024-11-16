@@ -240,7 +240,18 @@ public class GameServer extends Server {
             System.out.println("Error " + e.getMessage());
             e.printStackTrace();
         }
-
     }
+    
+    // Sends game over to all clients
+    private void sendGameOverToAll() {
+        try {
+            sendMessageToAllClients(new GameOver(model.getWinner()));
+        }
+        catch (Throwable e) {
+            System.out.println("Error " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     
 }
