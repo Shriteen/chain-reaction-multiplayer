@@ -126,7 +126,14 @@ public class GameServer extends Server {
                         // If game has started, also need to remove from game
                         if(state == Server.State.STARTED) {
                             for(SClient sc : clientList) {
-                                if(!sc.isActive()){
+                                /*
+                                  We also handle the viewer player
+                                  who is eliminated from game but is still connected.
+                                  viewer client is not in game anymore,
+                                  so we can't remove them from game — just remove client
+                                */
+                                if(!sc.isActive() &&
+                                   model.isPlayerInGameWithId(sc.getClientId())) { 
                                     model.removePlayer(sc.getClientId());
                                 }
                             }

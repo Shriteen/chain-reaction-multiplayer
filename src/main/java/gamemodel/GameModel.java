@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.ArrayDeque;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.NoSuchElementException;
+
 import com.google.gson.Gson;
 
 /**
@@ -75,7 +77,18 @@ public class GameModel {
     //Utility function to get the player object with the given Id
     private Player getPlayerWithId(int id) {
         return players.stream().filter(p -> p.id()==id).findFirst().get();
-    } 
+    }
+
+    //Utility function to check if player with given id is present in game
+    public boolean isPlayerInGameWithId(int id) {
+        try {
+            getPlayerWithId(id);
+            return true;
+        }
+        catch (NoSuchElementException e) {
+            return false;
+        }
+    }
 
     //get the player having current turn
     public Player currentTurnOfPlayer() {
