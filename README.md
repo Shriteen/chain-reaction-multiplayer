@@ -5,5 +5,5 @@ A network based multiplayer version of classic chain reaction game created as pr
 
 ## Build and Run
 ```
-mvn clean compile exec:java
+mvn javafx:run
 ```
