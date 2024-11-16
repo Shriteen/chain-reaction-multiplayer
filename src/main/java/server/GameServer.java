@@ -208,22 +208,22 @@ public class GameServer extends Server {
         }
     }
 
-    // Sends game model to all clients
-    private void sendStateToAll() {
+    // Sends given message to all clients
+    private void sendMessageToAllClients(Message message) {
         synchronized(clientList){
             for(var client: clientList){
                 try {
                     if(client.isActive())
-                        client.send(new GameState(model));
+                        client.send(message);
                 }
-                catch (IOException e) {
-                    System.out.println("Failed to send game state to "+ client.getClientId());
+                catch (Throwable e) {
+                    System.out.println("Failed to send "+message.messageType+" message to "+ client.getClientId());
                     System.out.println("Error " + e.getMessage());
                     e.printStackTrace();
                 }
             }
         }
-    }
+    }    
 
     // Sends your turn message to the player having current turn
     private void sendYourTurnMessage() {
