@@ -178,10 +178,34 @@ public class GameServer extends Server {
         }
         
         public void run() {
-            // TODO: game loop implementation
-            System.out.println("game is "+state.name());
-            model.print();
-        }   
+            System.out.println("Game Started");
+
+            // We also have to handle case when server is stopped by other threads
+            while(state==Server.State.STARTED && !model.isGameOver() ){
+                sendMessageToAllClients(new GameState(model)); // send state to all
+                sendYourTurnMessage();
+
+                try {
+                    sleep(30000); // wait max for 30 seconds and send messages again
+                }
+                catch (InterruptedException e) { }
+            }
+            System.out.println("Exited Gameloop");
+            
+            //Send winner player too all
+            if(model.isGameOver()){
+                sendGameOverToAll();
+            }
+            else{
+                //send exit message to all clients if server is stopped prematurely
+                sendMessageToAllClients(new ErrorMessage( ErrorMessage.Code.SERVER_STOPPED,
+                                                          "Server stopped before game completed"));
+                sendMessageToAllClients(new Exit());
+            }
+
+            System.out.println("Stopping Server");
+            setStopped();
+        }
     }
     
     // Utility method to returns a hex color prioritizing basic colors
