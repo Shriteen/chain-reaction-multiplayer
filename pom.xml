@@ -62,6 +62,14 @@
       <version>23.0.1</version>
     </dependency>
 
+    <!-- Java library to generate random, English pronounceable words -->
+    <!-- https://github.com/maximeroussy/invitrode -->
+    <dependency>
+      <groupId>com.maximeroussy.invitrode</groupId>
+      <artifactId>invitrode</artifactId>
+      <version>2.0.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>
