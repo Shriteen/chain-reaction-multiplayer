@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ui.HomeController"
+      alignment="center"
+      spacing="25">
+    <padding><Insets topRightBottomLeft="50"/></padding>
+    <children>
+        <VBox alignment="center" spacing="20">
+            <Text text="Chain Reaction" />
+            <VBox alignment="center">
+                <Label text="Enter Username"/>
+                <TextField fx:id="username" maxWidth="200"/>
+            </VBox>
+        </VBox>
+        
+        <Separator/>
+
+        <VBox alignment="center" spacing="20">
+            <Button text="Host Game" onAction="#hostGame"/>
+            
+            <Text text="OR" />
+            
+            <HBox spacing="15" alignment="center">
+                <TextField fx:id="ipAddr" promptText="Enter Server IP"/>
+                <Button text="Join" onAction="#joinGame"/>
+            </HBox>
+        </VBox>        
+        
+        
+    </children>
+</VBox>
+
