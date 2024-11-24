@@ -25,12 +25,21 @@ public class App extends Application{
     @Override
     public void start(Stage stage) throws IOException{
 
+        // Stop server if available on closing window
+        stage.setOnCloseRequest(event -> {
+                if(server != null){
+                    server.setStopped();
+                }
+            });
+        
+        
         URL homeFxml=getClass().getResource("/fxml/home.fxml");
         Parent root= FXMLLoader.load(homeFxml);
         
         Scene scene = new Scene(root, 640, 480);
         stage.setScene(scene);
         stage.show();
+        
     }
 
     

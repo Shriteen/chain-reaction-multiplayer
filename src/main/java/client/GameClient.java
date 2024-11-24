@@ -50,7 +50,7 @@ public class GameClient extends Client{
         super( new Socket(InetAddress.getByName(ipAddress),45678) , false); // client might wait for some time before discovering its disconnected
         state = State.CONNECTED;
         this.username= username;
-
+        
         start();
     }
 
