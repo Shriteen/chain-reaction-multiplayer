@@ -167,6 +167,14 @@ public class GameServer extends Server {
                     System.out.println("CleanDaemon interrupted");
                 }
             }
+
+            // When server is stopped, close the SClient threads for closing the threads
+            synchronized(clientList) {
+                for(SClient sc : clientList) {
+                    sc.deactivate();
+                }
+            }
+            
         }   
     }
 
