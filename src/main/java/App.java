@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 
 import server.GameServer;
 import client.GameClient;
+import protocol.Exit;
 
 public class App extends Application{
 
@@ -27,6 +28,18 @@ public class App extends Application{
 
         // Stop server if available on closing window
         stage.setOnCloseRequest(event -> {
+
+                if(client != null){
+                    try {
+                        client.send(new Exit());
+                    }
+                    catch (Throwable e) {
+                        System.out.println("Error " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                    client.deactivate();
+                }
+                
                 if(server != null){
                     server.setStopped();
                 }

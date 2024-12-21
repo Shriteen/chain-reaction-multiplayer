@@ -73,6 +73,22 @@ public class HomeController implements Initializable {
         startServerTask.setOnSucceeded( (e)->{
                 System.out.println("Server started");
                 //TODO: actual logic after server start
+
+
+                // Connection to itself
+                try {
+                    client= new GameClient("127.0.0.1",username.getText());
+                }
+                catch (Throwable err) {
+                    /* No special error handling considering that
+                       connecting to same machine won't have issues
+                       and connection won't get refused due to it
+                       being among first if not first to connect.
+                    */
+                    System.out.println("Error " + err.getMessage());
+                    err.printStackTrace();
+                }
+
                 
             });
         
@@ -148,6 +164,7 @@ public class HomeController implements Initializable {
                 protected Object call() throws Exception {
                     try {
                         server= new GameServer();
+                        server.start();
                         return null;
                     }
                     catch (Throwable e) {
