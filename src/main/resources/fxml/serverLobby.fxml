@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ui.ServerLobbyController" 
+      alignment="center"
+      spacing="25">
+    <padding><Insets topRightBottomLeft="50"/></padding>
+    <children>
+        <VBox alignment="center" spacing="20">
+            
+        </VBox>
+        
+        <Separator/>
+
+        <VBox alignment="center" spacing="20">
+            <HBox spacing="15" alignment="center">
+                <Label text="Enter Maximum No. of Players"/>
+                <TextField fx:id="maxPlayers" promptText="Player Limit" maxWidth="50"/>
+            </HBox>
+            <HBox spacing="15" alignment="center">
+                <Label text="Grid rows &amp; columns"/>
+                <TextField fx:id="rowsCount" promptText="Rows" maxWidth="50"/>
+                <TextField fx:id="colsCount" promptText="Columns" maxWidth="50"/>
+            </HBox>
+            <Text fx:id="errorMessage" text=""/>
+            <Button fx:id="startGameBtn" text="Start" onAction="#startGame"/>
+        </VBox>
+        
+    </children>
+</VBox>
+

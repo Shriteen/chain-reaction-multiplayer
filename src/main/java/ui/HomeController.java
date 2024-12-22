@@ -7,12 +7,16 @@ import java.net.ConnectException;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.scene.layout.VBox;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 
 import com.maximeroussy.invitrode.WordGenerator;
 
@@ -67,17 +71,21 @@ public class HomeController implements Initializable {
     @FXML
     @SuppressWarnings("unchecked")
     private void hostGame() {
-        System.out.println("placeholder method: host game clicked");
+        System.out.println("Host game clicked");
 
         Task startServerTask = getStartServerTask();
         startServerTask.setOnSucceeded( (e)->{
                 System.out.println("Server started");
-                //TODO: actual logic after server start
 
-
-                // Connection to itself
                 try {
+                    // Connection to itself
                     client= new GameClient("127.0.0.1",username.getText());
+
+                    // Transition UI
+                    URL serverLobbyFxml=getClass().getResource("/fxml/serverLobby.fxml");
+                    Parent root= FXMLLoader.load(serverLobbyFxml);
+                    
+                    ((Stage)hostGameBtn.getScene().getWindow()).setScene(new Scene(root,640, 480));
                 }
                 catch (Throwable err) {
                     /* No special error handling considering that
@@ -88,7 +96,6 @@ public class HomeController implements Initializable {
                     System.out.println("Error " + err.getMessage());
                     err.printStackTrace();
                 }
-
                 
             });
         
@@ -103,7 +110,18 @@ public class HomeController implements Initializable {
         Task connectToServerTask = getConnectToServerTask();
         connectToServerTask.setOnSucceeded( (e)->{
                 System.out.println("Connected to server");
-                //TODO: actual logic after connect
+
+                try {
+                    // Transition UI
+                    URL clientLobbyFxml=getClass().getResource("/fxml/clientLobby.fxml");
+                    Parent root= FXMLLoader.load(clientLobbyFxml);
+                    
+                    ((Stage)joinBtn.getScene().getWindow()).setScene(new Scene(root,640, 480));
+                }
+                catch (Throwable ex) {
+                    System.out.println("Error " + ex.getMessage());
+                    ex.printStackTrace();
+                }
                 
             });
         

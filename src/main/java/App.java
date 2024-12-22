@@ -25,7 +25,7 @@ public class App extends Application{
 
     @Override
     public void start(Stage stage) throws IOException{
-
+        
         // Stop server if available on closing window
         stage.setOnCloseRequest(event -> {
 
