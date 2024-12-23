@@ -74,6 +74,13 @@ public class GameServer extends Server {
     public GameModel getGameState() {
         return model;
     }
+
+    // returns a copy of clients currently connected to server
+    public ArrayList<SClient> getClientList() {
+        synchronized(clientList){
+            return new ArrayList<SClient>(clientList);
+        }
+    }
     
     // Returns a random integer which is not already allotted to any client
     private int getUniqueRandomId() {
