@@ -7,11 +7,17 @@
 <VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ui.ServerLobbyController" 
       alignment="center"
-      spacing="25">
+      spacing="10">
     <padding><Insets topRightBottomLeft="50"/></padding>
     <children>
-        <VBox alignment="center" spacing="20">
-            
+        <Text fx:id="ipHelp"/>
+        
+        <Separator/>
+        
+        <VBox alignment="center" spacing="10">
+            <padding><Insets left="150" right="150"/></padding>
+            <Text fx:id="clientListMessage" text="Players"/>
+            <ListView fx:id="clientListWidget" minWidth="150"></ListView>
         </VBox>
         
         <Separator/>
