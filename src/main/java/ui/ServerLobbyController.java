@@ -2,6 +2,8 @@ package ui;
 
 import java.util.ResourceBundle;
 import java.net.URL;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
@@ -9,18 +11,24 @@ import javafx.fxml.FXML;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ListCell;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextFormatter;
 import javafx.beans.value.ChangeListener;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
+import javafx.util.Duration;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import server.GameServer;
+import server.SClient;
 import client.GameClient;
+import ui.util.NumberFormatterFactory;
 
 import static app.App.server;
 import static app.App.client;
-
-
-import ui.util.NumberFormatterFactory;
 
 /**
  * ServerLobby: The screen which allows host to choose configuration for a game
@@ -41,6 +49,20 @@ public class ServerLobbyController implements Initializable {
 
     @FXML
     private Text errorMessage;
+
+    @FXML
+    private Text ipHelp;
+
+    @FXML
+    private ListView<SClient> clientListWidget;
+
+    @FXML
+    private Text clientListMessage;
+
+    private ScheduledService clientListDaemon;
+
+    private ObservableList<SClient> clientList;
+    
     
     @Override
     @SuppressWarnings("unchecked")
@@ -73,6 +95,39 @@ public class ServerLobbyController implements Initializable {
         };
         rowsCount.textProperty().addListener(listener);
         colsCount.textProperty().addListener(listener);
+
+        //List to show connected players
+        clientList= FXCollections.observableArrayList();
+        setupClientListDaemon();
+        clientListWidget.setItems(clientList);
+        clientListWidget.setCellFactory(item -> {
+                return new ListCell<>() {
+                    @Override
+                    public void updateItem(SClient sc, boolean empty) {
+                        super.updateItem(sc, empty);
+                        if (empty || sc == null) {
+                            setText(null);
+                        } else {
+                            setText(sc.getUsername());
+                        }
+                    }
+                };
+            });
+
+        clientListMessage.textProperty().bind(
+            Bindings.concat("Players (",
+                            Bindings.convert(Bindings.size(clientList)),
+                            ")")
+            );
+        
+        try {
+            ipHelp.setText("Players can connect to "+
+                           InetAddress.getLocalHost().getHostAddress()
+                );
+        }
+        catch (UnknownHostException e) {
+            ipHelp.setText("Players can connect to localhost");
+        }
         
     }
 
@@ -87,7 +142,11 @@ public class ServerLobbyController implements Initializable {
             int c=Integer.parseInt(colsCount.getText());
             
             server.startGame(r,c);
-            
+
+            //stop updating the players list in UI
+            clientListDaemon.cancel();
+
+            //TODO: transition to game
         }
         
         
@@ -131,5 +190,25 @@ public class ServerLobbyController implements Initializable {
             });
         return false;
     }
-    
+
+
+    // Setup daemon to track and update connected clients
+    private void setupClientListDaemon(){
+        clientListDaemon= new ScheduledService() {
+                protected Task createTask() {
+                    return new Task() {
+                        @Override
+                        protected Object call() {
+                            Platform.runLater(()->{
+                                    clientList.setAll(server.getClientList());
+                                });                            
+                            return null;
+                        }
+                    };
+                }
+            };
+        clientListDaemon.setPeriod(Duration.seconds(1));
+        clientListDaemon.start();
+    }
 }
+
