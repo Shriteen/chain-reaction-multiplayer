@@ -28,21 +28,7 @@ public class App extends Application{
         
         // Stop server if available on closing window
         stage.setOnCloseRequest(event -> {
-
-                if(client != null){
-                    try {
-                        client.send(new Exit());
-                    }
-                    catch (Throwable e) {
-                        System.out.println("Error " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                    client.deactivate();
-                }
-                
-                if(server != null){
-                    server.setStopped();
-                }
+                shutdown();
             });
         
         
@@ -55,5 +41,24 @@ public class App extends Application{
         
     }
 
+    // Closes client and server if active
+    static public void shutdown() {
+        if(client != null){
+            try {
+                client.send(new Exit());
+            }
+            catch (Throwable e) {
+                System.out.println("Error " + e.getMessage());
+                e.printStackTrace();
+            }
+            client.deactivate();
+            client=null;
+        }
+                
+        if(server != null){
+            server.stopServer();
+            server=null;
+        }
+    }
     
 }
