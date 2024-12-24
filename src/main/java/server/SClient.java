@@ -58,6 +58,16 @@ public class SClient extends Client{
             MakeMove move= new Gson().fromJson(jsonMessage, MakeMove.class);
             playMove(move);
             break;
+        case "REQUEST_STATE":
+            try {
+                if(server.state == Server.State.STARTED) // ignore game request if game is not started
+                    send(new GameState(server.model));
+            }
+            catch (Throwable e) {
+                System.out.println("Error " + e.getMessage());
+                e.printStackTrace();
+            }
+            break;
         default:
             System.out.println("Received unknown message type: "+ messageType);
         }

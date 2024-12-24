@@ -141,6 +141,16 @@ public class GameClient extends Client{
         }else
             System.out.println("Error: Made move when game is not started!");
     }
-    
+
+    // Sends RequestGameState message to server to query latest state
+    public void refreshStateRequest() {
+        try {
+            send(new RequestGameState());
+        }
+        catch (Throwable e) {
+            System.out.println("Error " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
 
