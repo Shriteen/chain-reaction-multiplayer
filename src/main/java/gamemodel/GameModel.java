@@ -10,9 +10,6 @@ import com.google.gson.Gson;
 
 /**
  * GameModel: The model which defines the game state and moves on the state
-
-   initPlayers is LinkedHashMap of Player. It is assumed that key will
-   always be the same id as that of the player object used as value
  */
 public class GameModel {
     private int rows;
@@ -75,7 +72,7 @@ public class GameModel {
     }
 
     //Utility function to get the player object with the given Id
-    private Player getPlayerWithId(int id) {
+    public Player getPlayerWithId(int id) {
         return players.stream().filter(p -> p.id()==id).findFirst().get();
     }
 
@@ -232,5 +229,23 @@ public class GameModel {
     //factory method to create GameModel object from json string
     public static GameModel fromJSON(String jsonRepresentationOfGameState) {
         return new Gson().fromJson(jsonRepresentationOfGameState, GameModel.class);
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    // defensive copy of grid
+    public Cell[][] getGrid() {
+        Cell gridCopy[][] = new Cell[rows][cols];
+        for(int i=0; i<rows;i++)
+            for(int j=0; j<cols;j++)
+                gridCopy[i][j]= grid[i][j];
+            
+        return gridCopy;
     }
 }

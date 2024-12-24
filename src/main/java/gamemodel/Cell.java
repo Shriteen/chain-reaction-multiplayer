@@ -3,7 +3,7 @@ package gamemodel;
 /**
  * Cell: Represents a cell in the grid
  */
-class Cell {
+public class Cell {
 
     //Max number of orbs the cell can contain
     final int maxCount;
@@ -50,5 +50,13 @@ class Cell {
         return ("Cell:- maxCount:"+ maxCount +" "+
                           "count:"+ count    +" "+
                         "ownerId:"+ ownerId );
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
     }
 }
