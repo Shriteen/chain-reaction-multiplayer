@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.net.SocketException;
 
 /**
  * Abstract class which represents design of a simple Server
@@ -47,6 +48,13 @@ public abstract class Server extends Thread
                     if(state == State.LISTENING)
                         System.out.println(" Listening again.");
                 }
+                catch(SocketException e){
+                    // if server is stopped this is expected, else report
+                    if(state != State.STOPPED){
+                        System.out.println("Error " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
             }
         } catch (IOException e) {
             System.out.println("Error " + e.getMessage());
@@ -64,6 +72,17 @@ public abstract class Server extends Thread
         state = State.STOPPED;
     } 
 
+    // stop listening and close server socket
+    public void stopServer() {
+        setStopped();
+        try {
+            serverSocket.close();
+        }
+        catch (Throwable e) {
+            System.out.println("Error " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     
 }
 
