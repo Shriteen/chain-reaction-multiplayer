@@ -4,11 +4,16 @@ import java.util.ResourceBundle;
 import java.net.URL;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.io.IOException;
 
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.beans.binding.Bindings;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -132,21 +137,23 @@ public class ServerLobbyController implements Initializable {
     }
 
     @FXML
-    private void startGame() {
+    private void startGame() throws IOException {
                 
-        if(maxPlayerValidate() && gridSizeValidate()){
+        if(maxPlayerValidate() && gridSizeValidate() && minConnectedPlayersValidate()){
             System.out.println("Starting game");
             
-            //TODO: start logic (Count actual connected players are 2+ and UI transition)
             int r=Integer.parseInt(rowsCount.getText());
             int c=Integer.parseInt(colsCount.getText());
             
             server.startGame(r,c);
 
+            // Transition UI
+            URL boardFxml=getClass().getResource("/fxml/board.fxml");
+            Parent root= FXMLLoader.load(boardFxml);
+            ((Stage)startGameBtn.getScene().getWindow()).setScene(new Scene(root,640, 480));            
+
             //stop updating the players list in UI
             clientListDaemon.cancel();
-
-            //TODO: transition to game
         }
         
         
@@ -189,6 +196,18 @@ public class ServerLobbyController implements Initializable {
                 errorMessage.setText(errorString);
             });
         return false;
+    }
+
+    //checks and returns true if valid; also shows error message
+    private boolean minConnectedPlayersValidate(){
+        if(server.getClientList().size() < 2){
+            Platform.runLater(()->{
+                    errorMessage.setText("Minimum number of players is 2");
+                });
+            return false;
+        }
+        
+        return true;
     }
 
 

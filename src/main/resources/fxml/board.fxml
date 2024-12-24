@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ui.BoardController"
+      alignment="center"
+      spacing="25" >
+    <padding><Insets topRightBottomLeft="20"/></padding>
+    <children>
+        <AnchorPane >
+            <Button AnchorPane.rightAnchor="0.0" text="Exit" onAction="#exitGame"/>
+        </AnchorPane>
+        <GridPane fx:id="grid" VBox.vgrow="ALWAYS">
+            
+        </GridPane>
+        <Text fx:id="turnMessage" text="Turn of"/>
+    </children>
+</VBox>
+
