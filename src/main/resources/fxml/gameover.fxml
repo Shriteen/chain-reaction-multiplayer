@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      alignment="center"
+      spacing="50">
+  <padding><Insets topRightBottomLeft="50"/></padding>
+  <children>
+      <Text fx:id="winnerMessage" />
+      <Button text="Exit" onAction="#exitGame"/>
+  </children>
+</VBox>
+

@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
@@ -20,11 +21,17 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.CornerRadii;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import gamemodel.GameModel;
+import gamemodel.Player;
+import ui.GameOverController;
 
 import static app.App.server;
 import static app.App.client;
@@ -34,6 +41,8 @@ import static app.App.client;
  */
 public class BoardController implements Initializable {
 
+    private BooleanProperty isMyTurn;
+    
     @FXML
     private Text turnMessage;
 
@@ -42,10 +51,13 @@ public class BoardController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        isMyTurn = new SimpleBooleanProperty();
+        
         client.onGameStateReceived(this::renderToGrid);
+        client.onGameOverReceived(this::gameOverHandler);
+        
         //refresh game state
         client.refreshStateRequest();
-
     }
 
     private void renderToGrid(GameModel model) {
@@ -112,16 +124,25 @@ public class BoardController implements Initializable {
                                                                   CornerRadii.EMPTY,
                                                                   Insets.EMPTY)
                                                ));
-                
+                        
+                        cell.disableProperty().bind(Bindings.not(isMyTurn));
+                        cell.setOnAction(this::inputMove);
+                        
                         grid.getChildren().add(cell);
                     }
                 }
                 
                 // set turn of message
-                if(client.getID() == model.currentTurnOfPlayer().id())
+                if(client.getID() == model.currentTurnOfPlayer().id()){
+                    isMyTurn.setValue(true);
                     turnMessage.setText("Your Turn");
-                else
-                    turnMessage.setText("Turn of "+ model.currentTurnOfPlayer().name());
+                }
+                else{
+                    isMyTurn.setValue(false);
+                    // cannot use bind for this as current player name is not observable property
+                    turnMessage.setText("Turn of "+ model.currentTurnOfPlayer().name()); 
+                }
+                turnMessage.setFill(Color.web("#"+model.currentTurnOfPlayer().color()));
             });
         
     }
@@ -145,6 +166,35 @@ public class BoardController implements Initializable {
                     System.out.println("Error " + e.getMessage());
                     e.printStackTrace();
                 }   
-            });        
+            });
+    }
+
+    private void inputMove(ActionEvent event) {
+        Node clickedBtn= (Node)event.getTarget();
+        int r= GridPane.getRowIndex(clickedBtn);
+        int c= GridPane.getColumnIndex(clickedBtn);
+
+        client.makeMove(r,c);
+    }
+
+    private void gameOverHandler(Player winner) {
+        System.out.println("Game over!!!!!");
+        System.out.println("Winner is "+winner.name()+" having id:"+winner.id());
+
+        Platform.runLater(()->{
+                try {
+                    FXMLLoader loader= new FXMLLoader(getClass().getResource("/fxml/gameover.fxml"));
+                    loader.setController(new GameOverController(winner));
+                    Parent root= loader.load();
+                    ((Stage)grid.getScene().getWindow()).setScene(
+                        new Scene(root,640, 480)
+                        );
+                    
+                }
+                catch (Throwable e) {
+                    System.out.println("Error " + e.getMessage());
+                    e.printStackTrace();
+                }   
+            });
     }
 }
