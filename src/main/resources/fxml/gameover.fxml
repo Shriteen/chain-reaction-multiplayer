@@ -9,8 +9,8 @@
       spacing="50">
   <padding><Insets topRightBottomLeft="50"/></padding>
   <children>
-      <Text fx:id="winnerMessage" />
-      <Button text="Exit" onAction="#exitGame"/>
+    <Text fx:id="winnerMessage" />
+    <Button text="Exit" onAction="#exitGame"/>
   </children>
 </VBox>
 

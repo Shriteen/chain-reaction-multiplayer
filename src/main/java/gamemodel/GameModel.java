@@ -56,12 +56,11 @@ public class GameModel {
         }
     }
 
-    //TODO: Remove the method used for debugging
     public void print() {
         System.out.println("================================================================================");
         System.out.println(players);
         System.out.println("Turn of: "+ players.get(turnOfPlayerIndex).name());
-        System.out.println("================================================================================");       
+        System.out.println("================================================================================");
         for(int i=0; i<rows;i++){
             for(int j=0; j<cols;j++){
                 System.out.print(grid[i][j]+"  ,  ");

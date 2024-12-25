@@ -8,15 +8,15 @@
       fx:controller="ui.BoardController"
       alignment="center"
       spacing="25" >
-    <padding><Insets topRightBottomLeft="20"/></padding>
-    <children>
-        <AnchorPane >
-            <Button AnchorPane.rightAnchor="0.0" text="Exit" onAction="#exitGame"/>
-        </AnchorPane>
-        <GridPane fx:id="grid" VBox.vgrow="ALWAYS">
-            
-        </GridPane>
-        <Text fx:id="turnMessage" text="Turn of"/>
-    </children>
+  <padding><Insets topRightBottomLeft="20"/></padding>
+  <children>
+    <AnchorPane >
+      <Button AnchorPane.rightAnchor="0.0" text="Exit" onAction="#exitGame"/>
+    </AnchorPane>
+    <GridPane fx:id="grid" VBox.vgrow="ALWAYS">
+      
+    </GridPane>
+    <Text fx:id="turnMessage" text="Turn of"/>
+  </children>
 </VBox>
 

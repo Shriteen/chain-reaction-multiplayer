@@ -8,35 +8,35 @@
       fx:controller="ui.HomeController"
       alignment="center"
       spacing="25">
-    <padding><Insets topRightBottomLeft="50"/></padding>
-    <children>
-        <VBox alignment="center" spacing="20">
-            <Text text="Chain Reaction" />
-            <VBox alignment="center">
-                <Label text="Enter Username"/>
-                <TextField fx:id="username" maxWidth="200"/>
-            </VBox>
-        </VBox>
-        
-        <Separator/>
+  <padding><Insets topRightBottomLeft="50"/></padding>
+  <children>
+    <VBox alignment="center" spacing="20">
+      <Text text="Chain Reaction" />
+      <VBox alignment="center">
+        <Label text="Enter Username"/>
+        <TextField fx:id="username" maxWidth="200"/>
+      </VBox>
+    </VBox>
+    
+    <Separator/>
 
-        <VBox fx:id="connectionControlsBox" alignment="center" spacing="20">
-            <Button fx:id="hostGameBtn" text="Host Game" onAction="#hostGame"/>
-            
-            <Text text="OR" />
-            
-            <HBox spacing="15" alignment="center">
-                <TextField fx:id="ipAddr" promptText="Enter Server IP"/>
-                <Button fx:id="joinBtn" text="Join" onAction="#joinGame"/>
-            </HBox>
-        </VBox>        
+    <VBox fx:id="connectionControlsBox" alignment="center" spacing="20">
+      <Button fx:id="hostGameBtn" text="Host Game" onAction="#hostGame"/>
+      
+      <Text text="OR" />
+      
+      <HBox spacing="15" alignment="center">
+        <TextField fx:id="ipAddr" promptText="Enter Server IP"/>
+        <Button fx:id="joinBtn" text="Join" onAction="#joinGame"/>
+      </HBox>
+    </VBox>        
 
-        <Text fx:id="errorMessage" text=""/>
-        <VBox fx:id="loadingSpinnerBox" alignment="center" spacing="20">
-            <ProgressIndicator/>
-        </VBox>
-        
-        
-    </children>
+    <Text fx:id="errorMessage" text=""/>
+    <VBox fx:id="loadingSpinnerBox" alignment="center" spacing="20">
+      <ProgressIndicator/>
+    </VBox>
+    
+    
+  </children>
 </VBox>
 

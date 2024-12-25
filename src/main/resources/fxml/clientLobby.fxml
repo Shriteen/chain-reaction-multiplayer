@@ -9,12 +9,12 @@
       alignment="center"
       spacing="25"
       fx:id="container">
-    <padding><Insets topRightBottomLeft="50"/></padding>
-    <children>
-        <VBox alignment="center" spacing="20">
-            <ProgressIndicator/>
-            <Text text="Waiting to Start..." />
-        </VBox>
-    </children>
+  <padding><Insets topRightBottomLeft="50"/></padding>
+  <children>
+    <VBox alignment="center" spacing="20">
+      <ProgressIndicator/>
+      <Text text="Waiting to Start..." />
+    </VBox>
+  </children>
 </VBox>
 
