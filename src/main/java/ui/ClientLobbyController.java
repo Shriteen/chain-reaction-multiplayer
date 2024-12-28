@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 
+import client.GameClient;
+
 import static app.App.server;
 import static app.App.client;
 
@@ -33,7 +35,6 @@ public class ClientLobbyController implements Initializable {
                             ((Stage)container.getScene().getWindow()).setScene(
                                 new Scene(root,640, 480)
                                 );
-                    
                         }
                         catch (Throwable e) {
                             System.out.println("Error " + e.getMessage());
@@ -42,7 +43,21 @@ public class ClientLobbyController implements Initializable {
                     });
             });
 
+        client.onSocketClosed(state->{
+                if(state == GameClient.State.CONNECTED || state == GameClient.State.STARTED){
+                    System.out.println("Disconnected from Server");
+                    app.App.showDisconnectedScreen();
+                }
+            });
+
+        //handle case when socket is closed before onclosed event handler is set
+        if(client.isSocketClosed()){
+            System.out.println("Disconnected from Server");
+            // no condition as at this point state should be CONNECTED or STARTED
+            app.App.showDisconnectedScreen();
+        }
+
         //refresh game state
         client.refreshStateRequest();
-    }    
+    }
 }

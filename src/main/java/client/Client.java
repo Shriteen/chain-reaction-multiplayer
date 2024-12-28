@@ -140,6 +140,10 @@ public abstract class Client extends Thread{
         return active;
     }
 
+    public boolean isSocketClosed() {
+        return socket.isClosed();
+    }
+    
     // set active to false i.e. do not consider client to be useful anymore. Like a close()
     public void deactivate() {
         active = false;
@@ -169,5 +173,4 @@ public abstract class Client extends Thread{
         }
         
     }
-    
 }

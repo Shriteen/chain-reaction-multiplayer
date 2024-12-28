@@ -17,7 +17,7 @@ import protocol.*;
 public class GameClient extends Client{
     
     // state of client 
-    enum State{ CREATED , CONNECTED, STARTED, OVER };
+    public enum State{ CREATED , CONNECTED, STARTED, OVER };
     private State state=State.CREATED;
     
     // Client info
@@ -44,6 +44,13 @@ public class GameClient extends Client{
         System.out.println("Game over!");      // Default implementation is to log to console
         System.out.println("Winner is "+winner.name()+" having id:"+winner.id());
     };
+
+    // Event function which is fired when socket is closed
+    // Accepts gameclient state at time of disconnect as argument
+    private Consumer<State> socketClosedHandler = s -> {
+        System.out.println("Socket closed in state "+ s.name());      // Default implementation is to log to console
+    };
+
     
     // Constructor accepts the port on which to listen
     public GameClient(String ipAddress, String username) throws IOException{
@@ -63,6 +70,7 @@ public class GameClient extends Client{
         // Close socket after use
         socket.close();
         System.out.println("Socket closed");
+        socketClosedHandler.accept(state);
     }
     
     protected void handleMessages(String messageType, String jsonMessage) {
@@ -103,6 +111,10 @@ public class GameClient extends Client{
     public GameModel getGameState() {
         return model;
     }
+
+    public State getClientState() {
+        return state;
+    }
     
     //Change state to Started
     public void setStarted() {
@@ -122,6 +134,11 @@ public class GameClient extends Client{
     // To add event handler for game over received
     public void onGameOverReceived(Consumer<Player> handler) {
         gameOverReceivedHandler= handler;
+    }
+
+    // To add event handler for game over received
+    public void onSocketClosed(Consumer<State> handler) {
+        socketClosedHandler= handler;
     }
     
     // Send make move message; row and col are position of move

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -18,6 +19,8 @@ public class App extends Application{
     // Server and client references are made available throughout application
     static public GameServer server;
     static public GameClient client;
+
+    static private Stage stage;
     
     public static void main(String[] args) {
         launch();
@@ -25,6 +28,7 @@ public class App extends Application{
 
     @Override
     public void start(Stage stage) throws IOException{
+        this.stage=stage;
         
         // Stop server if available on closing window
         stage.setOnCloseRequest(event -> {
@@ -61,4 +65,17 @@ public class App extends Application{
         }
     }
     
+    static public void showDisconnectedScreen() {
+        Platform.runLater(()->{
+                try {        
+                    URL disconnectedFxml=App.class.getResource("/fxml/disconnected.fxml");
+                    Parent root= FXMLLoader.load(disconnectedFxml);
+                    stage.setScene(new Scene(root,640, 480));
+                }
+                catch (Throwable e) {
+                    System.out.println("Error " + e.getMessage());
+                    e.printStackTrace();
+                }   
+            });
+    }
 }
