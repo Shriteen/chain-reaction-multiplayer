@@ -9,10 +9,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import server.GameServer;
 import client.GameClient;
 import protocol.Exit;
+import protocol.ErrorMessage;
 
 public class App extends Application{
 
@@ -76,6 +79,13 @@ public class App extends Application{
                     System.out.println("Error " + e.getMessage());
                     e.printStackTrace();
                 }   
+            });
+    }
+
+    static public void showErrorMessagePopup(ErrorMessage err) {
+        Platform.runLater(()->{
+                Alert alert = new Alert(AlertType.ERROR, err.getErrorDisplayString());
+                alert.showAndWait();
             });
     }
 }

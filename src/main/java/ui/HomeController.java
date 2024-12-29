@@ -136,6 +136,14 @@ public class HomeController implements Initializable {
                     for(int i=1;i<=5;i++){ // try upto 5 times if connection refused
                         try {
                             client= new GameClient(ipAddr.getText(),username.getText());
+                            
+                            /* set error handler ASAP;
+                               possible chance of race condition where error comes before this is set,
+                               but not showing error message in UI shouldn't be a deal breaker 🙂 as
+                               fallback to report error in console already exist
+                            */
+                            client.onErrorMessageReceived(app.App::showErrorMessagePopup);
+                            
                             return null;
                         }
                         catch (ConnectException e){

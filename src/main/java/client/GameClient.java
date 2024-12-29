@@ -51,6 +51,9 @@ public class GameClient extends Client{
         System.out.println("Socket closed in state "+ s.name());      // Default implementation is to log to console
     };
 
+    // Event function which is fired when error message is received 
+    // Accepts ErrorMessage
+    private Consumer<ErrorMessage> errorMessageHandler = err -> { };
     
     // Constructor accepts the port on which to listen
     public GameClient(String ipAddress, String username) throws IOException{
@@ -99,6 +102,11 @@ public class GameClient extends Client{
             System.out.println("Received unknown message type: "+ messageType);
         }
     }
+
+    protected void handleErrorMessage(ErrorMessage err) {
+        super.handleErrorMessage(err);
+        errorMessageHandler.accept(err);
+    }
     
     public int getID() {
         return ID;
@@ -139,6 +147,11 @@ public class GameClient extends Client{
     // To add event handler for game over received
     public void onSocketClosed(Consumer<State> handler) {
         socketClosedHandler= handler;
+    }
+
+    // To add event handler for error message received
+    public void onErrorMessageReceived(Consumer<ErrorMessage> handler) {
+        errorMessageHandler= handler;
     }
     
     // Send make move message; row and col are position of move
