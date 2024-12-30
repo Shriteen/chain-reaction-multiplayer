@@ -1,0 +1,32 @@
+#start-button{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: #a400ff;
+    -fx-border-width: 2px;
+    -fx-border-radius: 0.75em;
+    -fx-text-fill: #a400ff;
+    -fx-font-size: 1.5em;
+    -fx-font-weight: 900;
+    -fx-effect: dropshadow(gaussian, #a400ff, 10, 0.1, 0, 0);
+}
+
+#start-button:hover, #start-button:focused{
+    -fx-effect: dropshadow(gaussian, #a400ff, 25, 0.1, 0, 0);
+}
+
+
+ListView{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: orange;
+    -fx-border-radius: 0.75em;    
+    -fx-text-fill: orange;
+}
+
+.list-cell{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-text-fill: orange;    
+}
+
+#client-list-message{
+    -fx-fill: orange;
+    -fx-font-size: 1.1em;
+}

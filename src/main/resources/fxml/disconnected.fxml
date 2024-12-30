@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import java.net.URL?>
 
 <VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ui.DisconnectedController"
@@ -10,8 +11,12 @@
       spacing="50">
   <padding><Insets topRightBottomLeft="50"/></padding>
   <children>
-    <Text fx:id="message" text="Server Disconnected!" />
-    <Button text="Exit" onAction="#exitGame"/>
+    <Text id="disconnected-message" fx:id="message" text="Server Disconnected!" />
+    <Button id="exit-button" text="Exit" onAction="#exitGame"/>
   </children>
+  <stylesheets>
+    <URL value="@../css/common.css" />
+    <URL value="@../css/disconnected.css" />
+  </stylesheets>
 </VBox>
 

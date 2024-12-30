@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import java.net.URL?>
 
 <VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ui.ServerLobbyController" 
@@ -16,7 +17,7 @@
     
     <VBox alignment="center" spacing="10">
       <padding><Insets left="150" right="150"/></padding>
-      <Text fx:id="clientListMessage" text="Players"/>
+      <Text id="client-list-message" fx:id="clientListMessage" text="Players"/>
       <ListView fx:id="clientListWidget" minWidth="150"></ListView>
     </VBox>
     
@@ -32,10 +33,14 @@
         <TextField fx:id="rowsCount" promptText="Rows" maxWidth="50"/>
         <TextField fx:id="colsCount" promptText="Columns" maxWidth="50"/>
       </HBox>
-      <Text fx:id="errorMessage" text=""/>
-      <Button fx:id="startGameBtn" text="Start" onAction="#startGame"/>
+      <Text styleClass="error-message" fx:id="errorMessage" text=""/>
+      <Button id="start-button" fx:id="startGameBtn" text="Start" onAction="#startGame"/>
     </VBox>
     
   </children>
+  <stylesheets>
+    <URL value="@../css/common.css" />
+    <URL value="@../css/serverLobby.css" />
+  </stylesheets>
 </VBox>
 

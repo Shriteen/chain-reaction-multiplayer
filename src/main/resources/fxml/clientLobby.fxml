@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import java.net.URL?>
 
 <VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ui.ClientLobbyController" 
@@ -16,5 +17,8 @@
       <Text text="Waiting to Start..." />
     </VBox>
   </children>
+  <stylesheets>
+    <URL value="@../css/common.css" />
+  </stylesheets>
 </VBox>
 

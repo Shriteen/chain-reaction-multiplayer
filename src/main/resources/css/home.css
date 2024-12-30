@@ -1,0 +1,17 @@
+Button{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: #00ff00;
+    -fx-border-width: 1px;
+    -fx-border-radius: 7px;
+    -fx-text-fill: #00ff00;
+}
+
+Button:hover, Button:focused{
+    -fx-effect: dropshadow(gaussian, #00ff00, 10, 0.1, 0, 0);
+}
+
+#title{
+    -fx-font-size: 5em;
+    -fx-font-family: monospace;
+    -fx-font-weight: bold;
+}

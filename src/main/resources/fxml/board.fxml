@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import java.net.URL?>
 
 <VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ui.BoardController"
@@ -11,12 +12,16 @@
   <padding><Insets topRightBottomLeft="20"/></padding>
   <children>
     <AnchorPane >
-      <Button AnchorPane.rightAnchor="0.0" text="Exit" onAction="#exitGame"/>
+      <Button id="exit-button" AnchorPane.rightAnchor="0.0" text="Exit" onAction="#exitGame"/>
     </AnchorPane>
     <GridPane fx:id="grid" VBox.vgrow="ALWAYS">
       
     </GridPane>
     <Text fx:id="turnMessage" text="Turn of"/>
   </children>
+  <stylesheets>
+    <URL value="@../css/common.css" />
+    <URL value="@../css/board.css" />
+  </stylesheets>
 </VBox>
 

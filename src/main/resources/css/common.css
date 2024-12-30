@@ -1,0 +1,45 @@
+.root{
+    -fx-background-color: linear-gradient(to bottom, #000000, #222222);
+}
+
+Text, Label{
+    -fx-fill: white;
+    -fx-text-fill: white;
+}
+
+Label{
+    -fx-text-fill: cyan;
+    -fx-font-size: 1.1em;
+}
+
+Separator{
+    -fx-opacity: 0.33;
+}
+
+TextField{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: #00ffff;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-text-fill: #00ffff;
+}
+
+TextField:focused{
+    -fx-effect: dropshadow(gaussian, #00ffff, 10, 0.05, 0, 0);    
+}
+
+.error-message{
+    -fx-fill: #ff2e2e;    
+}
+
+#exit-button{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: #00ff00;
+    -fx-border-width: 1px;
+    -fx-border-radius: 7px;
+    -fx-text-fill: #00ff00;
+}
+
+#exit-button:hover, #exit-button:focused{
+    -fx-effect: dropshadow(gaussian, #00ff00, 10, 0.1, 0, 0);
+}
