@@ -14,7 +14,7 @@
     <AnchorPane >
       <Button id="exit-button" AnchorPane.rightAnchor="0.0" text="Exit" onAction="#exitGame"/>
     </AnchorPane>
-    <GridPane fx:id="grid" VBox.vgrow="ALWAYS">
+    <GridPane id="grid" fx:id="grid" VBox.vgrow="ALWAYS">
       
     </GridPane>
     <Text fx:id="turnMessage" text="Turn of"/>

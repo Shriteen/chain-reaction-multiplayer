@@ -111,19 +111,26 @@ public class BoardController implements Initializable {
                         Button cell= new Button(String.valueOf(model.getGrid()[i][j].getCount()));
                         GridPane.setConstraints(cell, j, i);
 
-                        String cellColor;
+                        String cellColor, borderColor, textColor;
                         int cellOwner= model.getGrid()[i][j].getOwnerId();
                         if(cellOwner==0){ // neutral
-                            cellColor="#ffffff";
+                            cellColor="#ffffff00";
+                            borderColor="#ffffff";
+                            textColor="#ffffff";
                         }else{
                             cellColor="#"+model.getPlayerWithId(cellOwner).color();
+                            borderColor=cellColor;
+                            textColor="#000000";
                         }
                         
-                        cell.setBackground(new Background(
-                                               new BackgroundFill(Color.web(cellColor),
-                                                                  CornerRadii.EMPTY,
-                                                                  Insets.EMPTY)
-                                               ));
+                        cell.setStyle(
+                            String.format(
+                                "-fx-background-color: %s; -fx-border-color: %s; -fx-text-fill: %s",
+                                cellColor,
+                                borderColor,
+                                textColor
+                                )
+                            );
                         
                         cell.disableProperty().bind(Bindings.not(isMyTurn));
                         cell.setOnAction(this::inputMove);
