@@ -186,8 +186,8 @@ public class ServerLobbyController implements Initializable {
 
         if(r<4 || c<4){
             errorString ="Minimum size of grid supported is 4*4";
-        }else if(r>30 || c>30){
-            errorString ="Maximum size of grid supported is 30*30";
+        }else if(r>20 || c>20){
+            errorString ="Maximum size of grid supported is 20*20";
         }else{                  //Valid
             return true;
         }
