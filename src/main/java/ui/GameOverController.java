@@ -39,6 +39,7 @@ public class GameOverController implements Initializable {
         else{
             winnerMessage.setText(winner.name()+" won the Game!");
         }
+        winnerMessage.setStyle("-fx-fill: #"+winner.color());
     }
 
     @FXML
